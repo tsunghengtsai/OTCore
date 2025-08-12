@@ -1,6 +1,7 @@
-# OTcore
-Data structure and basic analysis for organic transistor experimental data
+# OTCore
 
---
+Data structure and basic functionality for analysis organic transistor experimental data.
 
-OECT
+## S3 class
+
+## Functionality

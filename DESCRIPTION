@@ -1,0 +1,16 @@
+Package: OTCore
+Title: Data Structures and Functions for Analysis of Organic Transistor Data
+Version: 0.0.0.9000
+Authors@R: 
+    person("Tsung-Heng", "Tsai", , "tsai.tsungheng@gmail.com", role = c("aut", "cre"))
+Description: Convenience functions to facilitate analysis of organic transistor 
+    measurement data. The analysis procedure handles data representation, 
+    exploration, analysis, summarization and visualization, together with helper
+    functions for importing data and exporting analysis results.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports: 
+    readr,
+    readxl

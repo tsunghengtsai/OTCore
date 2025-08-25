@@ -17,7 +17,7 @@ print.OTDataSet <- function(x, n = 6L, ...) {
   cat("  - type:      ", paste0(names(table(m$type)), " (", table(m$type), ")", collapse = "; "), "\n", sep = "")
   cat("\n")
   cat(paste0("Annotations (metadata) for the first ", n, " transistors: \n", sep = ""))
-  print(head(m), n, ...)
+  print(utils::head(m), n, ...)
 }
 
 #' @method print OTAnalysis
@@ -33,8 +33,7 @@ print.OTAnalysis <- function(x, n = 6L, ...) {
   cat("  metadata: ", paste0(names(m), collapse = ", "), "\n", sep = "")
   cat("  sweepResult: Sweep-level results for each of the n=", length(sres$sweepData), " transistors \n", sep = "")
   cat("    -- sweepData: ", paste0(names(sres$sweepData[[1]]), collapse = ", "), "\n", sep = "")
-  cat("    -- QC: measures and flags for ",
-      paste0(unique(sres$QC[[1]]$term), collapse = ", "), "\n", sep = "")
+  cat("    -- QC: measures and flags for ", paste0(unique(sres$QC[[1]]$term), collapse = ", "), "\n", sep = "")
   cat("    -- estimate: ", paste0(names(sres$estimate[[1]]), collapse = ", "), " \n", sep = "")
   cat("  OTResult: Transistor-level results in terms of ", paste0(names(ores[[1]]), collapse = ", "), " \n", sep = "")
   cat("  units: ", attr(x, "units"), "\n", sep = "")
@@ -47,7 +46,7 @@ print.OTAnalysis <- function(x, n = 6L, ...) {
   cat("  - type:      ", paste0(names(table(m$type)), " (", table(m$type), ")", collapse = "; "), "\n", sep = "")
   cat("\n")
   cat(paste0("Annotations (metadata) for the first ", n, " transistors: \n", sep = ""))
-  print(head(m))
+  print(utils::head(m), n, ...)
 }
 
 #' @method [ OTDataSet

@@ -70,7 +70,7 @@ select.OTDataSet <- function(.data, ..., .with = "metadata") {
   if (.with == "metadata") {
     req_meta <- var_meta()
     .data[["metadata"]] <- select(.data[["metadata"]], !!!dots)
-    if (!all(utils::hasName(.data[["metadata"]], req_meta))) {
+    if (!all(hasName(.data[["metadata"]], req_meta))) {
       stop(
         paste0(
           "Selected columns should include ",
@@ -208,7 +208,7 @@ select.OTAnalysis <- function(.data, ..., .with = "metadata") {
   if (.with == "metadata") {
     req_meta <- var_meta2()
     .data[["metadata"]] <- select(.data[["metadata"]], !!!dots)
-    if (!all(utils::hasName(.data[["metadata"]], req_meta))) {
+    if (!all(hasName(.data[["metadata"]], req_meta))) {
       stop(
         paste0(
           "Selected columns should include ",
@@ -220,7 +220,7 @@ select.OTAnalysis <- function(.data, ..., .with = "metadata") {
   } else {
     req_iv <- var_iv()
     .data[["IVData"]] <- lapply(.data[["IVData"]], select, !!!dots)
-    if (!all(utils::hasName(.data[["IVData"]][[1]], req_iv))) {
+    if (!all(hasName(.data[["IVData"]][[1]], req_iv))) {
       stop(
         paste0(
           "Selected columns should include ",

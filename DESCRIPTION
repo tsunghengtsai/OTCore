@@ -17,4 +17,5 @@ Imports:
     readxl,
     rlang,
     tibble,
-    tidyr
+    tidyr,
+    utils

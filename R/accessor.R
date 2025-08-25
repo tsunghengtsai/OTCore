@@ -17,7 +17,7 @@ print.OTDataSet <- function(x, n = 6L, ...) {
   cat("  - type:      ", paste0(names(table(m$type)), " (", table(m$type), ")", collapse = "; "), "\n", sep = "")
   cat("\n")
   cat(paste0("Annotations (metadata) for the first ", n, " transistors: \n", sep = ""))
-  print(utils::head(m), n, ...)
+  print(head(m), n, ...)
 }
 
 #' @method print OTAnalysis
@@ -46,7 +46,7 @@ print.OTAnalysis <- function(x, n = 6L, ...) {
   cat("  - type:      ", paste0(names(table(m$type)), " (", table(m$type), ")", collapse = "; "), "\n", sep = "")
   cat("\n")
   cat(paste0("Annotations (metadata) for the first ", n, " transistors: \n", sep = ""))
-  print(utils::head(m), n, ...)
+  print(head(m), n, ...)
 }
 
 #' @method [ OTDataSet
@@ -66,7 +66,7 @@ print.OTAnalysis <- function(x, n = 6L, ...) {
 #' @export
 `[.OTAnalysis` <- function(x, i, ...) {
   iv <- x[["IVData"]]
-  m <- x[["metadata"]]
+  meta <- x[["metadata"]]
   sres <- x[["sweepResult"]]
   ores <- x[["OTResult"]]
   u <- attr(x, "units")
@@ -85,13 +85,13 @@ print.OTAnalysis <- function(x, n = 6L, ...) {
 #' @method head OTDataSet
 #' @export
 head.OTDataSet <- function(x, n = 6L, ...) {
-  utils::head(x[["metadata"]], n, ...)
+  head(x[["metadata"]], n, ...)
 }
 
 #' @method tail OTDataSet
 #' @export
 tail.OTDataSet <- function(x, n = 6L, ...) {
-  utils::tail(x[["metadata"]], n, ...)
+  tail(x[["metadata"]], n, ...)
 }
 
 #' @method units OTDataSet

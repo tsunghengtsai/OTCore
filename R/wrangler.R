@@ -2,15 +2,15 @@
 
 #' @method nest OTDataSet
 #' @export
-nest.OTDataSet <- function(x) {
-  tibble(x[["metadata"]], data = x[["IVData"]])
+nest.OTDataSet <- function(.data, ...) {
+  tibble(.data[["metadata"]], data = .data[["IVData"]])
 }
 
 #' @method as.data.frame OTDataSet
 #' @export
-as.data.frame.OTDataSet <- function(x) {
+as.data.frame.OTDataSet <- function(x, ...) {
   y <- nest.OTDataSet(x)
-  unnest(y, data)
+  unnest(y, .data$data)
 }
 
 #' @method arrange OTDataSet
@@ -105,24 +105,24 @@ distinct.OTDataSet <- function(.data, ...) {
 
 #' @method count OTDataSet
 #' @export
-count.OTDataSet <- function(.data, ...) {
-  x <- .data[["metadata"]]
+count.OTDataSet <- function(x, ...) {
+  y <- x[["metadata"]]
   dots <- quos(...)
-  count(x, !!!dots)
+  count(y, !!!dots)
 }
 
 # OTAnalysis ---------------------------------------------------------------
 
 #' @method nest OTAnalysis
 #' @export
-nest.OTAnalysis <- function(x) {
+nest.OTAnalysis <- function(.data, ...) {
   nested <- tibble(
-    x[["metadata"]],
-    data = x[["IVData"]],
-    sweepData = x[["sweepResult"]]$sweepData,
-    QC = x[["sweepResult"]]$QC,
-    estimate = x[["sweepResult"]]$estimate,
-    OTResult = x[["OTResult"]]
+    .data[["metadata"]],
+    data = .data[["IVData"]],
+    sweepData = .data[["sweepResult"]]$sweepData,
+    QC = .data[["sweepResult"]]$QC,
+    estimate = .data[["sweepResult"]]$estimate,
+    OTResult = .data[["OTResult"]]
   )
   nested
 }
@@ -141,7 +141,7 @@ as.data.frame.OTAnalysis <- function(x, ..., with = "sweepData", .id = TRUE) {
   if (.id) {
     y$.id <- 1:nrow(y)
   }
-  unnest(y, data)
+  unnest(y, .data$data)
 }
 
 #' @method arrange OTAnalysis
@@ -230,6 +230,7 @@ select.OTAnalysis <- function(.data, ..., .with = "metadata") {
       )
     }
   }
+  u <- attr(.data, "units")
   ota <- new_OTAnalysis(
     .data[["IVData"]],
     .data[["metadata"]],

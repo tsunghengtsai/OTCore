@@ -97,22 +97,23 @@ validate_OTDataSet <- function(x) {
   }
 
   # Check required columns in I-V data
-  req_iv <- c("I_drain", "I_gate", "V_gate")
+  req_iv <- var_iv()
   name_iv <- lapply(iv, utils::hasName, req_iv)
   allname_iv <- sapply(name_iv, all)
   if (!all(allname_iv)) {
     err_iv <- paste0(which(!allname_iv), collapse = ", ")
     stop(
-      paste0("I-V data indexed ", err_iv, " do not include required columns `I_drain`, `I_gate`, `V_gate`"),
+      paste0("I-V data indexed ", err_iv, " do not include required columns ",
+             paste0(req_iv, collapse = ", ")),
       call. = FALSE
     )
   }
 
   # Check required columns in metadata
-  req_meta <- c("substrate", "length", "width", "thickness", "type")
+  req_meta <- var_meta()
   if (!all(utils::hasName(meta, req_meta))) {
     stop(
-      "Metadata should include `substrate`, `length`, `width`, `thickness`, `type`",
+      paste0("Metadata should include ", paste0(req_meta, collapse = ", ")),
       call. = FALSE
     )
   }
@@ -213,11 +214,16 @@ OTDataSet_from_files <- function(
   }
 
   # Check required columns in I-V data
+  req_iv <- var_iv()
   if (is.null(required_iv)) {
     required_iv <- c(DrainI = "I_drain", GateI = "I_gate", GateV = "V_gate")
   } else {
-    if (!all(c("I_drain", "I_gate", "V_gate") %in% required_iv)) {
-      stop("Required I-V names should be specified in required_iv", call. = FALSE)
+    if (!all(req_iv %in% required_iv)) {
+      stop(
+        paste0("Required I-V names ", paste0(req_iv, collapse = ", "),
+               " should be specified in required_iv"),
+        call. = FALSE
+      )
     }
   }
 
@@ -230,8 +236,8 @@ OTDataSet_from_files <- function(
     }
     if (!all(utils::hasName(df, names(required_iv)))) {
       stop(
-        paste0("I-V data indexed ", i, " do not include specified columns",
-               " including I_drain, I_gate, and V_gate"),
+        paste0("I-V data indexed ", i, " do not include specified columns including ",
+               paste0(req_iv, collapse = ", ")),
         call. = FALSE
       )
     }
@@ -344,3 +350,29 @@ validate_OTAnalysis <- function(x) {
 
   x
 }
+
+# Required variables for I-V data
+var_iv <- function() {
+  c("I_drain", "I_gate", "V_gate")
+}
+
+# Required variables for metadata of OTDataSet
+var_meta <- function() {
+  c("substrate", "length", "width", "thickness", "type")
+}
+
+# Required variables for metadata of OTAnalysis
+var_meta2 <- function() {
+  c("substrate", "length", "width", "thickness", "type", "dim_ratio")
+}
+
+# OTDataSet class
+cls_otd <- function() {
+  c("OTDataSet")
+}
+
+# OTAnalysis class
+cls_ota <- function() {
+  c("OTAnalysis", "OTDataSet")
+}
+

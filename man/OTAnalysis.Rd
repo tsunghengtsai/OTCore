@@ -59,9 +59,11 @@ An OTAnalysis object.
 \description{
 \code{OTAnalysis} is an extended class of \code{OTDataSet} that includes extra details
 about analysis results summarized at the sweep-level and transistor-level.
+\code{new_OTAnalysis()} constructs an \code{OTAnalysis} object, and
+\code{validate_OTAnalysis()} checks an \code{OTAnalysis} for expected format and info.
+
 The constructor (and validator) would not typically be used by an
 end user. These functions are called by the \code{OT_analyze()} function that
-takes as input an \code{OTDataSet} and returns an \code{OTAnalysis} object.
-
-\code{validate_OTAnalysis()} checks an OTAnalysis for expected format and info.
+takes as input an \code{OTDataSet} and returns a new \code{OTAnalysis} object. They may
+also be called by methods for modifying an \code{OTAnalysis} object.
 }

@@ -2,8 +2,12 @@
 #'
 #' @description
 #' `OTDataSet` is a class used to restore current-voltage (I-V) measurement
-#' data from organic transistors and metadata. The `OTDataSet` class is a list
-#' of two elements named `IVData` and `metadata`.
+#' data from organic transistors and their metadata. The `OTDataSet` class is a
+#' list of two elements named `IVData` and `metadata`.
+#'
+#' `new_OTDataSet()` constructs an `OTDataSet` object, and
+#' `validate_OTDataSet()` checks an `OTDataSet` for expected format and info.
+#' `OTDataSet()` is a helper function that wraps the constructor and validator.
 #'
 #' @param IVData A list of data frames, each restores measurements for one
 #' transistor in three or more columns: `V_gate` (gate voltage),
@@ -56,7 +60,6 @@ new_OTDataSet <- function(IVData = list(), metadata = data.frame(), units = "mic
   )
 }
 
-#' @description
 #' `validate_OTDataSet()` checks an OTDataSet for expected format and info.
 #'
 #' @param x An OTDataSet
@@ -121,9 +124,8 @@ validate_OTDataSet <- function(x) {
   x
 }
 
-#' @description
-#' `OTDataSet()` is a helper function to construct and then validate an
-#' `OTDataSet` object.
+
+#' Helper function for `OTDataSet`.
 #'
 #' @rdname OTDataSet
 #' @export
@@ -246,9 +248,13 @@ OTDataSet_from_files <- function(
 #' @description
 #' `OTAnalysis` is an extended class of `OTDataSet` that includes extra details
 #' about analysis results summarized at the sweep-level and transistor-level.
+#' `new_OTAnalysis()` constructs an `OTAnalysis` object, and
+#' `validate_OTAnalysis()` checks an `OTAnalysis` for expected format and info.
+#'
 #' The constructor (and validator) would not typically be used by an
 #' end user. These functions are called by the `OT_analyze()` function that
-#' takes as input an `OTDataSet` and returns an `OTAnalysis` object.
+#' takes as input an `OTDataSet` and returns a new `OTAnalysis` object. They may
+#' also be called by methods for modifying an `OTAnalysis` object.
 #'
 #' @param IVData A list of data frames, each restores measurements for one
 #' transistor in three or more columns: `V_gate` (gate voltage),
@@ -304,7 +310,6 @@ new_OTAnalysis <- function(
   )
 }
 
-#' @description
 #' `validate_OTAnalysis()` checks an OTAnalysis for expected format and info.
 #'
 #' @param x An OTAnalysis object

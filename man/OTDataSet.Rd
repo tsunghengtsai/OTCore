@@ -38,13 +38,12 @@ An OTDataSet object.
 }
 \description{
 \code{OTDataSet} is a class used to restore current-voltage (I-V) measurement
-data from organic transistors and metadata. The \code{OTDataSet} class is a list
-of two elements named \code{IVData} and \code{metadata}.
+data from organic transistors and their metadata. The \code{OTDataSet} class is a
+list of two elements named \code{IVData} and \code{metadata}.
 
-\code{validate_OTDataSet()} checks an OTDataSet for expected format and info.
-
-\code{OTDataSet()} is a helper function to construct and then validate an
-\code{OTDataSet} object.
+\code{new_OTDataSet()} constructs an \code{OTDataSet} object, and
+\code{validate_OTDataSet()} checks an \code{OTDataSet} for expected format and info.
+\code{OTDataSet()} is a helper function that wraps the constructor and validator.
 }
 \examples{
 v <- c(seq(0, 0.5, by = 0.05), seq(0.45, 0, by = -0.05))

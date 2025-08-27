@@ -3,6 +3,7 @@
 
 ## usethis namespace: start
 #' @importFrom dplyr arrange
+#' @importFrom dplyr bind_rows
 #' @importFrom dplyr count
 #' @importFrom dplyr distinct
 #' @importFrom dplyr filter
@@ -11,6 +12,9 @@
 #' @importFrom dplyr slice
 #' @importFrom rlang .data
 #' @importFrom rlang quos
+#' @importFrom stats coef
+#' @importFrom stats coefficients
+#' @importFrom stats lm
 #' @importFrom tibble tibble
 #' @importFrom tidyr nest
 #' @importFrom tidyr unnest

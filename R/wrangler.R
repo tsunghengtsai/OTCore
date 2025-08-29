@@ -155,7 +155,13 @@ arrange.OTAnalysis <- function(.data, ...) {
   dots <- quos(...)
   x <- arrange(x, !!!dots)
   sres <- list(sweepData = x[["sweepData"]], QC = x[["QC"]], estimate = x[["estimate"]])
-  ota <- new_OTAnalysis(x[["data"]], x[, !sapply(x, is.list)], sres, x[["OTResult"]], units = u)
+  ota <- new_OTAnalysis(
+    x[["data"]],
+    as.data.frame(x[, !sapply(x, is.list)]),
+    sres,
+    x[["OTResult"]],
+    units = u
+  )
   validate_OTAnalysis(ota)
 }
 
@@ -170,7 +176,13 @@ filter.OTAnalysis <- function(.data, ..., .preserve = FALSE) {
     stop("None of the transistors satisfies the filtering condition(s)")
   }
   sres <- list(sweepData = x[["sweepData"]], QC = x[["QC"]], estimate = x[["estimate"]])
-  ota <- new_OTAnalysis(x[["data"]], x[, !sapply(x, is.list)], sres, x[["OTResult"]], units = u)
+  ota <- new_OTAnalysis(
+    x[["data"]],
+    as.data.frame(x[, !sapply(x, is.list)]),
+    sres,
+    x[["OTResult"]],
+    units = u
+  )
   validate_OTAnalysis(ota)
 }
 
@@ -185,7 +197,13 @@ slice.OTAnalysis <- function(.data, ..., .preserve = FALSE) {
     stop("None of the transistors is within the range")
   }
   sres <- list(sweepData = x[["sweepData"]], QC = x[["QC"]], estimate = x[["estimate"]])
-  ota <- new_OTAnalysis(x[["data"]], x[, !sapply(x, is.list)], sres, x[["OTResult"]], units = u)
+  ota <- new_OTAnalysis(
+    x[["data"]],
+    as.data.frame(x[, !sapply(x, is.list)]),
+    sres,
+    x[["OTResult"]],
+    units = u
+  )
   validate_OTAnalysis(ota)
 }
 

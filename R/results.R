@@ -27,7 +27,7 @@ OT_results <- function(x, by_var = ".id") {
   message(paste0("Summarizing by the variable(s) ", paste0(by_var, collapse = ", "), " ..."))
 
   var_sum <- c("flag", "gm_max", "V_thresh_shift")
-  df_sum <- nest(df[, c(by_var, var_sum)], all_of(var_sum))
+  df_sum <- nest(df[, c(by_var, var_sum)], data = all_of(var_sum))
   df_sum$n <- sapply(df_sum$data, nrow)
   df_sum$n_flagged <- sapply(df_sum$data, function(x) sum(x$flag))
   df_sum$gm_max_mean <- sapply(df_sum$data, function(x) ifelse(all(x$flag), NA, mean(x$gm_max[!x$flag], na.rm = TRUE)))

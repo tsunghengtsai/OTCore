@@ -3,7 +3,9 @@
 #' @method nest OTDataSet
 #' @export
 nest.OTDataSet <- function(.data, ...) {
-  tibble(.data[["metadata"]], data = .data[["IVData"]])
+  m <- .data[["metadata"]]
+  iv <- .data[["IVData"]]
+  tibble(m, data = iv)
 }
 
 #' @method as.data.frame OTDataSet
@@ -116,15 +118,16 @@ count.OTDataSet <- function(x, ...) {
 #' @method nest OTAnalysis
 #' @export
 nest.OTAnalysis <- function(.data, ...) {
-  nested <- tibble(
-    .data[["metadata"]],
-    data = .data[["IVData"]],
-    sweepData = .data[["sweepResult"]]$sweepData,
-    QC = .data[["sweepResult"]]$QC,
-    estimate = .data[["sweepResult"]]$estimate,
-    OTResult = .data[["OTResult"]]
+  m <- .data[["metadata"]]
+  iv <- .data[["IVData"]]
+  swp <- .data[["sweepResult"]]$sweepData
+  qc <- .data[["sweepResult"]]$QC
+  est <- .data[["sweepResult"]]$estimate
+  otres <- .data[["OTResult"]]
+
+  tibble(
+    m, data = iv, sweepData = swp, QC = qc, estimate = est, OTResult = otres
   )
-  nested
 }
 
 #' @method as.data.frame OTAnalysis

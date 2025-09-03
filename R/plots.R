@@ -1,3 +1,40 @@
+#' Plot measurement curve
+#'
+#' @description
+#' `OT_plot_curve()` returns a `ggplot` object or a list of `ggplot` objects
+#' specifying measurement curve(s) for one or multiple organic transistors.
+#'
+#' @details
+#' By default, the function plots the transfer characteristic curve for each
+#' transistor, which is useful in most cases. Specifically, the `x_var` argument
+#' is set to `"V_gate"` and the `y_var` argument is set to `"abs_I_drain"`.
+#' The plot may include an optional second curve, defined based on another
+#' variable for an additional y-axis on the right of the plot (the `y2_var`
+#' argument). The same `x_var` will be used for the second curve.
+#' Transconductance (`"gm"`) and gate current (`"I_gate"`) are common choices
+#' for `y2_var`. Default is to create such curves for all the transistors, and
+#' return a list of `ggplot` objects, one for each transistor. Alternatively,
+#' user can choose to plot just one transistor, indexed by the `.id` argument.
+#' In that case, a `ggplot` object will be returned by the function. Another
+#' possibility is to have all the curves in one plot, colored based on a
+#' specified grouping variable (argument `group`) that should be part of the
+#' metadata. By default, both `y2_var` and `group` are set to `NULL`. It is not
+#' allowed to specify both arguments at the same time.
+#'
+#' @param data An `OTAnalysis` object.
+#' @param x_var A character.
+#' @param y_var A character.
+#' @param y2_var An optional character.
+#' @param group An optional character.
+#' @param sweep A character with three possible values (`"fwd"`, `"bwd"`, or
+#' `"both"` (default)).
+#' @param .id An optional integer.
+#' @param x_lab A character or expression.
+#' @param y_lab A character or expression.
+#' @param y2_lab An optional character or expression.
+#' @param y_trans A character.
+#'
+#' @returns A `ggplot` object or a list of `ggplot` objects.
 #' @export
 OT_plot_curve <- function(
     data,

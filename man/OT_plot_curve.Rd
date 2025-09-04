@@ -2,7 +2,7 @@
 % Please edit documentation in R/plots.R
 \name{OT_plot_curve}
 \alias{OT_plot_curve}
-\title{Plot measurement curve}
+\title{Plot organic transistor measurement curve(s)}
 \usage{
 OT_plot_curve(
   data,

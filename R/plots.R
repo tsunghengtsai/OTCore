@@ -1,4 +1,4 @@
-#' Plot measurement curve
+#' Plot organic transistor measurement curve(s)
 #'
 #' @description
 #' `OT_plot_curve()` returns a `ggplot` object or a list of `ggplot` objects
@@ -146,3 +146,118 @@ OT_plot_curve <- function(
     return(gg + facet_wrap(~ sweep) + theme_bw())
   }
 }
+
+#' Plot estimates of organic transistor parameters
+#'
+#' @description
+#' `OT_plot_param()` returns a `ggplot` object for parameter estimates of the
+#' analyzed organic transistors.
+#'
+#' @param data An `OTAnalysis` object.
+#' @param x_var An optional character.
+#' @param y_var A character.
+#' @param group An optional character.
+#' @param level A character with two possible values (`"sweep"` (default) or
+#' `"OT"`).
+#' @param use_raw_x A logical value.
+#' @param ignore_outlier A logical value.
+#' @param x_lab A character or expression.
+#' @param y_lab A character or expression.
+#'
+#' @returns A `ggplot` object.
+#' @export
+OT_plot_param <- function(
+    data,
+    x_var = NULL,
+    y_var = character(),
+    group = NULL,
+    level = "sweep",
+    use_raw_x = FALSE,
+    ignore_outlier = FALSE,
+    x_lab = x_var,
+    y_lab = y_var
+) {
+  if (!identical(cls_ota(), class(data))) {
+    stop("Input should be an `OTAnalysis` object")
+  }
+
+  # Check existence of y-variable
+  if (is.null(y_var) || length(y_var) != 1) {
+    stop("`y_var`, a variable of sweep- or OT-level estimate, must be provided!")
+  }
+  if (y_var %in% var_meta2()) {
+    stop("`y_var` should be a sweep- or OT-level estimate. It can't be part of the metadata")
+  }
+
+  # Check existence of x-variable
+  if (!is.null(x_var) && !(x_var %in% var_meta2())) {
+    stop("`x_var` should be part of the metadata")
+  }
+  if (use_raw_x && is.null(x_var)) {
+    stop("To use raw values of x (`use_raw_x = TRUE`), `x_var` must be provided")
+  }
+
+  # Sweep- or OT-level
+  level <- match.arg(level, c("sweep", "OT"))
+  if (level == "sweep") {
+    res_all <- as.data.frame(data, with = "estimate", .id = TRUE)
+  } else {
+    res_all <- as.data.frame(data, with = "OTResult", .id = TRUE)
+  }
+  if (!hasName(res_all, y_var)) {
+    stop("Variable `y_var` should be a sweep- or OT-level estimate")
+  }
+
+  if (!is.null(group)) {
+    if (!(group %in% var_meta2())) {
+      stop("Variable `group` should be part of the metadata")
+    }
+    res_all[[group]] <- factor(res_all[[group]])
+  }
+
+  # Ignore outliers or not
+  if (ignore_outlier) {
+    res_all <- res_all[!res_all$flag, ]
+  }
+
+  # With x-variable (raw or categorical) or not
+  if (is.null(x_var)) {
+    gg <- ggplot(res_all, aes(y = .data[[y_var]]))
+  } else {
+    if (!use_raw_x) {
+      res_all[[x_var]] <- factor(res_all[[x_var]])
+    }
+    gg <- ggplot(res_all, aes(x = .data[[x_var]], y = .data[[y_var]]))
+  }
+
+  # Sweep- or OT-level
+  if (level == "sweep") {
+    if (use_raw_x) {
+      gg <- gg + geom_point(aes(color = .data$sweep))
+    } else {
+      gg <- gg +
+        geom_boxplot(aes(color = .data$sweep)) +
+        geom_point(aes(color = .data$sweep), position = position_dodge(0.75))
+    }
+  } else {
+    if (use_raw_x) {
+      gg <- gg + geom_point()
+    } else {
+      gg <- gg +
+        geom_boxplot() +
+        geom_point()
+    }
+  }
+
+  # Faceting by group
+  if (is.null(group)) {
+    gg <- gg + labs(x = x_lab, y = y_lab)
+  } else {
+    gg <- gg +
+      facet_wrap(vars(.data[[group]])) +
+      labs(x = x_lab, y = y_lab)
+  }
+
+  gg + theme_bw()
+}
+

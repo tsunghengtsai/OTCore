@@ -16,7 +16,7 @@ print.OTDataSet <- function(x, n = 6L, ...) {
   cat("  - thickness: ", paste0(names(table(m$thickness)), " (", table(m$thickness), ")", collapse = "; "), "\n", sep = "")
   cat("  - type:      ", paste0(names(table(m$type)), " (", table(m$type), ")", collapse = "; "), "\n", sep = "")
   cat("\n")
-  cat(paste0("Annotations (metadata) for the first ", n, " transistors: \n", sep = ""))
+  cat("Annotations (metadata) for the first ", n, " transistors: \n", sep = "")
   print(head(m), n, ...)
 }
 
@@ -45,7 +45,10 @@ print.OTAnalysis <- function(x, n = 6L, ...) {
   cat("  - thickness: ", paste0(names(table(m$thickness)), " (", table(m$thickness), ")", collapse = "; "), "\n", sep = "")
   cat("  - type:      ", paste0(names(table(m$type)), " (", table(m$type), ")", collapse = "; "), "\n", sep = "")
   cat("\n")
-  cat(paste0("Annotations (metadata) for the first ", n, " transistors: \n", sep = ""))
+  cat("There are ", length(unique(OT_flag_display(x)$.id)), " transistors with abnormal I-V measurements. \n", sep = "")
+  cat("Call the `OT_flag_display()` function for details. \n")
+  cat("\n")
+  cat("Annotations (metadata) for the first ", n, " transistors: \n", sep = "")
   print(head(m), n, ...)
 }
 

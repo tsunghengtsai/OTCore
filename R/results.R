@@ -86,3 +86,37 @@ OT_flag_modify <- function(x, mod) {
 
   validate_OTAnalysis(x)
 }
+
+#' Export and save analysis results to a CSV
+#'
+#' This function exports the group- or transistor-level results to a CSV. The
+#' transistor-level results are available in a valid `OTAnalysis` input. The
+#' function calls the `OT_results()` function when the group-level results are
+#' exported.
+#'
+#' @param x An `OTAnalysis` object.
+#' @param file CSV file to write to.
+#' @param level A character with two possible values (`"group"` (default) or
+#' `"OT"`).
+#' @param by_var Character vector for variables in metadata to define groups
+#' for summarization.
+#'
+#' @returns The result data frame is returned invisibly.
+#' @export
+OT_export_results <- function(x, file = NULL, level = "group", by_var = ".id") {
+  if (!identical(cls_ota(), class(x))) {
+    stop("Input should be an `OTAnalysis` object")
+  }
+
+  # Group- or OT-level
+  level <- match.arg(level, c("group", "OT"))
+  if (level == "OT") {
+    res <- as.data.frame(x, with = "OTResult", .id = TRUE)
+    file <- ifelse(is.null(file), "results_transistor.csv", file)
+    write_csv(res, file)
+  } else {
+    res <- OT_results(x, by_var)
+    file <- ifelse(is.null(file), "results_group.csv", file)
+    write_csv(res, file)
+  }
+}

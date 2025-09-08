@@ -261,3 +261,48 @@ OT_plot_param <- function(
   gg + theme_bw()
 }
 
+
+#' Export multiple organic transistor measurement curves to a PDF
+#'
+#' `OT_export_curves()` is a wrapper of `OT_plot_curve()`, creating and saving
+#' multiple organic transistor measurement curves to a PDF.
+#'
+#' @param data An `OTAnalysis` object.
+#' @param x_var A character.
+#' @param y_var A character.
+#' @param y2_var An optional character.
+#' @param sweep A character with three possible values (`"fwd"`, `"bwd"`, or
+#' `"both"` (default)).
+#' @param x_lab A character or expression.
+#' @param y_lab A character or expression.
+#' @param y2_lab An optional character or expression.
+#' @param y_trans A character.
+#'
+#' @return A named integer giving the number and name of the new active device
+#' (after the specified device has been shut down).
+#' @export
+OT_export_curves <- function(
+    data,
+    x_var = "V_gate",
+    y_var = "abs_I_drain",
+    y2_var = NULL,
+    sweep = "both",
+    x_lab = x_var,
+    y_lab = y_var,
+    y2_lab = y2_var,
+    y_trans = "identity"
+) {
+  if (!identical(cls_ota(), class(data))) {
+    stop("Input should be an `OTAnalysis` object")
+  }
+  plots <- OT_plot_curve(
+    data, x_var = x_var, y_var = y_var, y2_var = y2_var, sweep = sweep,
+    x_lab = x_lab, y_lab = y_lab, y_trans = y_trans
+  )
+  pdf("curves.pdf")
+  for (i in seq_along(plots)) {
+    print(plots[[i]])
+  }
+  dev.off()
+}
+

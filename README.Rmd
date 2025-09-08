@@ -69,3 +69,8 @@ Two primary data objects used in the `OTCore` analysis procedure are
 * Plot organic transistor measurement curve(s): `OT_plot_curve()`
 * Plot estimates of organic transistor parameters: `OT_plot_param()`
 
+### Input/output helpers
+
+* Create an `OTDataSet` from files: `OTDataSet_from_files()`
+* Export analysis results: `OT_export_results()`
+* Export measurement curve plots: `OT_export_curves()`

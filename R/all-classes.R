@@ -67,7 +67,7 @@ new_OTDataSet <- function(IVData = list(), metadata = data.frame(), units = "mic
 #' @rdname OTDataSet
 #' @export
 validate_OTDataSet <- function(x) {
-  if (!all(utils::hasName(x, c("IVData", "metadata")))) {
+  if (!all(hasName(x, c("IVData", "metadata")))) {
     stop("OTDataSet should contain IVData and metadata", call. = FALSE)
   }
   iv <- x[["IVData"]]
@@ -98,7 +98,7 @@ validate_OTDataSet <- function(x) {
 
   # Check required columns in I-V data
   req_iv <- var_iv()
-  name_iv <- lapply(iv, utils::hasName, req_iv)
+  name_iv <- lapply(iv, hasName, req_iv)
   allname_iv <- sapply(name_iv, all)
   if (!all(allname_iv)) {
     err_iv <- paste0(which(!allname_iv), collapse = ", ")
@@ -111,7 +111,7 @@ validate_OTDataSet <- function(x) {
 
   # Check required columns in metadata
   req_meta <- var_meta()
-  if (!all(utils::hasName(meta, req_meta))) {
+  if (!all(hasName(meta, req_meta))) {
     stop(
       paste0("Metadata should include ", paste0(req_meta, collapse = ", ")),
       call. = FALSE
@@ -185,7 +185,7 @@ OTDataSet_from_files <- function(
     stop("Each data file should have a corresponding annotation in `metadata`")
   }
 
-  if (!utils::hasName(filepath, "path")) {
+  if (!hasName(filepath, "path")) {
     stop("Column `path` is required in the data frame `filepath`")
   }
 
@@ -204,7 +204,7 @@ OTDataSet_from_files <- function(
   filepath$ext <- ext
 
   if (any(ext %in% c("xls", "xlsx"))) {
-    if (!utils::hasName(filepath, "sheet")) {
+    if (!hasName(filepath, "sheet")) {
       stop("Excel files are expected. Column `sheet` is in `filepath`")
     }
     is_excel <- (ext %in% c("xls", "xlsx"))
@@ -234,7 +234,7 @@ OTDataSet_from_files <- function(
     } else {
       df <- readr::read_csv(filepath$path[i])
     }
-    if (!all(utils::hasName(df, names(required_iv)))) {
+    if (!all(hasName(df, names(required_iv)))) {
       stop(
         paste0("I-V data indexed ", i, " do not include specified columns including ",
                paste0(req_iv, collapse = ", ")),
@@ -316,14 +316,16 @@ new_OTAnalysis <- function(
   )
 }
 
-#' `validate_OTAnalysis()` checks an OTAnalysis for expected format and info.
+#' `validate_OTAnalysis()` checks an `OTAnalysis` for expected format and info.
 #'
-#' @param x An OTAnalysis object
+#' @param x An `OTAnalysis` object
+#'
+#' @returns The validated `OTAnalysis` as input
 #'
 #' @rdname OTAnalysis
 #' @export
 validate_OTAnalysis <- function(x) {
-  if (!all(utils::hasName(x, c("IVData", "metadata", "sweepResult", "OTResult")))) {
+  if (!all(hasName(x, c("IVData", "metadata", "sweepResult", "OTResult")))) {
     stop(
       "OTAnalysis should contain `IVData`, `metadata`, `sweepResult`, `OTResult`",
       call. = FALSE
@@ -336,7 +338,7 @@ validate_OTAnalysis <- function(x) {
   sres <- x[["sweepResult"]]
   otres <- x[["OTResult"]]
 
-  if (!all(utils::hasName(sres, c("sweepData", "QC", "estimate")))) {
+  if (!all(hasName(sres, c("sweepData", "QC", "estimate")))) {
     stop("sweepResult is a list of `sweepData`, `QC`, and `estimate` ", call. = FALSE)
   }
 
@@ -349,6 +351,18 @@ validate_OTAnalysis <- function(x) {
   }
 
   x
+}
+
+#' Test if the object is an `OTAnalysis`
+#'
+#' This function returns TRUE for `OTAnalysis`, and FALSE for all other objects.
+#'
+#' @param x An object
+#'
+#' @returns TRUE if the object inherits from the `OTAnalysis` class.
+#' @export
+is_OTAnalysis <- function(x) {
+  inherits(x, "OTAnalysis")
 }
 
 # Required variables for I-V data

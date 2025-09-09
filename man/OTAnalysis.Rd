@@ -51,10 +51,12 @@ voltage between sweeps, and difference area under the transfer curve.}
 \item{units}{The unit for measurements of transistor's size ("mm", "micron",
 or "nm")}
 
-\item{x}{An OTAnalysis object}
+\item{x}{An \code{OTAnalysis} object}
 }
 \value{
 An OTAnalysis object.
+
+The validated \code{OTAnalysis} as input
 }
 \description{
 \code{OTAnalysis} is an extended class of \code{OTDataSet} that includes extra details
